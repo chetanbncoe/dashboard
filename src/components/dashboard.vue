@@ -6,11 +6,10 @@
         <b-col>
           <information :population="population" :households="households" :district="district" :country="country" :locality="locality" :city="city" :status="status"></information>
         </b-col>
-        <b-col>
-          <b-card title="Card Title" tag="article" class="m-2">
-            <!-- <expenditure></expenditure> -->
-          </b-card>
+        <b-col v-if="mapdata.length>0" class="m-1">
+            <position :mapdata="mapdata"></position>
         </b-col>
+        <b-col v-else class="m-1 text-center">No Data Found</b-col>
         <div class="w-100"></div>
         <b-col>
           <b-card v-if="locality&&monthlyincome" title="Demographics" tag="article" class="m-2">
@@ -37,6 +36,7 @@ import navbar from './navbar'
 import expenditure from './expenditure'
 import demographics from './demographics'
 import information from './information'
+import position from './position'
 import pincode from '../assets/pincode.json'
 import locality from '../assets/locality.json'
 import income from '../assets/income.json'
@@ -48,7 +48,8 @@ export default {
     navbar,
     expenditure,
     demographics,
-    information
+    information,
+    position
   },
   props: [],
   data () {
@@ -66,7 +67,8 @@ export default {
       city: null,
       status: null,
       expenditurearr: [],
-      expincode: null
+      expincode: null,
+      mapdata: []
     }
   },
   mounted () {
@@ -82,6 +84,7 @@ export default {
       this.city = null
       this.expincode = null
       this.expenditurearr = []
+      this.mapdata = []
       this.monthlyincome = null
       if (status === 'pincode') {
         if (this.pincodejson) {
@@ -92,6 +95,14 @@ export default {
                 return item.attributes
               }
             })
+            let geodata = features.filter((item) => {
+              if (parseInt(item.attributes.pincode) === parseInt(num)) {
+                return item.geometry
+              }
+            })
+            if (geodata.length > 0) {
+              this.mapdata = geodata[0].geometry.rings
+            }
             if (attributes.length > 0) {
               this.population = attributes[0].attributes.population
               this.households = attributes[0].attributes.households
@@ -116,6 +127,14 @@ export default {
                 return item.attributes
               }
             })
+            let geodata = features.filter((item) => {
+              if (parseInt(item.attributes.locality_i) === parseInt(num)) {
+                return item.geometry
+              }
+            })
+            if (geodata.length > 0) {
+              this.mapdata = geodata[0].geometry.rings
+            }
             if (attributes.length > 0) {
               this.population = attributes[0].attributes.population
               this.households = attributes[0].attributes.households

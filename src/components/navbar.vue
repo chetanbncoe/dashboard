@@ -1,9 +1,10 @@
 <template>
 <div>
   <b-navbar toggleable="lg" type="dark" variant="info">
-    <b-navbar-brand href="#">Geospoc Dashboard &nbsp;&nbsp;&nbsp;
-      <code class="smallfont" v-if="pincode&&!locality">individual pincode report for {{pincode}}</code>
-      <code class="smallfont" v-if="locality&&!pincode">Locality ID {{locality}}</code></b-navbar-brand>
+    <b-navbar-brand href="#">Geospoc Dashboard <br>
+      <code v-if="pincode&&!locality">Individual pincode report for {{pincode}}</code>
+      <code v-else>Locality ID {{locality}}</code>
+      </b-navbar-brand>
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
@@ -52,7 +53,4 @@ export default {
 
 </script>
 <style>
-.smallfont {
-  font-size: 12px;
-}
 </style>
