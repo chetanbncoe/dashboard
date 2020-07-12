@@ -11,7 +11,13 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "vue": "^2.5.2",
+    "bootstrap": "^4.5.0",
+    "bootstrap-vue": "^2.15.0",
+    "chart.js": "^2.9.3",
+    "node-sass": "^4.14.1",
+    "sass-loader": "^9.0.2",
+    "vue": "^2.6.11",
+    "vue-chartjs": "^3.5.0",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {
