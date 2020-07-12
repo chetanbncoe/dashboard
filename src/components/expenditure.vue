@@ -3,9 +3,20 @@ import { Bar } from 'vue-chartjs'
 
 export default {
   extends: Bar,
-  data: () => ({
-    chartdata: {
-      labels: ['POInProcess', 'POInDone', 'POCheckDone', 'PORecheck', 'POApproved', 'POLocked', 'Invalid'],
+  props: ['expenditurearr'],
+  mounted () {
+    this.renderChart({
+      labels: [
+        'Apparel',
+        'Education',
+        'Entertainment',
+        'Finance',
+        'Food',
+        'Health',
+        'House',
+        'Other',
+        'Teansport'
+      ],
       datasets: [
         {
           backgroundColor: [
@@ -15,20 +26,27 @@ export default {
             'orange',
             'purple',
             'blue',
-            'gray'
+            'gray',
+            'yellow',
+            'red'
           ],
-          data: [11, 12, 13, 14, 15, 16, 17]
+          data: [
+            this.expenditurearr[0].apparel,
+            this.expenditurearr[0].education,
+            this.expenditurearr[0].entertainment,
+            this.expenditurearr[0].finance,
+            this.expenditurearr[0].food,
+            this.expenditurearr[0].health,
+            this.expenditurearr[0].house,
+            this.expenditurearr[0].other,
+            this.expenditurearr[0].teansport
+          ]
         }
       ]
-    },
-    options: {
+    }, {
       responsive: true,
       maintainAspectRatio: false
-    }
-  }),
-
-  mounted () {
-    this.renderChart(this.chartdata, this.options)
+    })
   }
 }
 </script>

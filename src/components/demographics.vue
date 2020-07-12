@@ -5,7 +5,6 @@ export default {
   extends: Doughnut,
   props: ['income', 'locality'],
   mounted () {
-    debugger
     this.renderChart({
       labels: [this.locality],
       datasets: [

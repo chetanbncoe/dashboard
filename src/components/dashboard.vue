@@ -13,16 +13,19 @@
         </b-col>
         <div class="w-100"></div>
         <b-col>
-          <b-card v-if="locality&&monthlyincome" title="Demographics" :sub-title="'Monthly Income Distribution: '+locality" tag="article" class="m-2">
+          <b-card v-if="locality&&monthlyincome" title="Demographics" tag="article" class="m-2">
             <demographics :income="monthlyincome" :locality="locality"></demographics>
           </b-card>
-          <b-card v-else title="Demographics" :sub-title="'Monthly Income Distribution: '+locality" tag="article" class="m-2">
+          <b-card v-else title="Demographics" tag="article" class="m-2">
             <span>No Data Found</span>
           </b-card>
         </b-col>
         <b-col>
-          <b-card title="Expenditure" tag="article" class="m-2">
-            <expenditure></expenditure>
+          <b-card v-if="expenditurearr.length>0" title="Expenditure" tag="article" class="m-2">
+            <expenditure :expenditurearr="expenditurearr"></expenditure>
+          </b-card>
+          <b-card v-else title="Expenditure" tag="article" class="m-2">
+            <span>No Data Found</span>
           </b-card>
         </b-col>
       </b-row>
@@ -37,6 +40,8 @@ import information from './information'
 import pincode from '../assets/pincode.json'
 import locality from '../assets/locality.json'
 import income from '../assets/income.json'
+import expendituredata from '../assets/expenditure.json'
+
 export default {
   name: 'dashboard',
   components: {
@@ -48,6 +53,7 @@ export default {
   props: [],
   data () {
     return {
+      expenditurejson: expendituredata,
       pincodejson: pincode,
       localityjson: locality,
       incomejson: income,
@@ -58,7 +64,9 @@ export default {
       country: null,
       locality: null,
       city: null,
-      status: null
+      status: null,
+      expenditurearr: [],
+      expincode: null
     }
   },
   mounted () {
@@ -72,6 +80,8 @@ export default {
       this.country = null
       this.locality = null
       this.city = null
+      this.expincode = null
+      this.expenditurearr = []
       this.monthlyincome = null
       if (status === 'pincode') {
         if (this.pincodejson) {
@@ -86,7 +96,13 @@ export default {
               this.population = attributes[0].attributes.population
               this.households = attributes[0].attributes.households
               this.district = attributes[0].attributes.district_n
-              this.country = attributes[0].attributes.country
+              this.country = 'India'
+            }
+            if (num) {
+              this.expenditurearr = this.expenditurejson.filter((item) => parseInt(item.pincode) === parseInt(num))
+              if (this.expenditurearr.length > 0) {
+                this.expincode = this.expenditurearr[0].pincode
+              }
             }
           }
         }

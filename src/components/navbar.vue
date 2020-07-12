@@ -33,8 +33,8 @@ export default {
     }
   },
   mounted () {
-    this.locality = 67
-    this.show('locality')
+    this.pincode = 560040
+    this.show('pincode')
   },
   methods: {
     show (status) {
